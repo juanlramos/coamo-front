@@ -1,4 +1,4 @@
-export { };
+export * from './ThemeContext';
 
 /*
 resolvendo problema do children no react 18
