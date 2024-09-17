@@ -1,4 +1,5 @@
 export * from './ThemeContext';
+export * from './DrawerContext';
 
 /*
 resolvendo problema do children no react 18
