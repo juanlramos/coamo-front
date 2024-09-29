@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 

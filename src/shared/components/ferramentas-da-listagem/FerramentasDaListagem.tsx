@@ -6,8 +6,10 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
+
 import { IoIosSearch } from "react-icons/io";
 import { FiPlus } from "react-icons/fi";
+import { Environment } from "../../environment";
 
 interface IFerramentasDaListagemProps {
   //props da input
@@ -44,7 +46,7 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
       {mostrarInputBusca && (
         <TextField
           size="small"
-          placeholder="Pesquisar"
+          placeholder={Environment.INPUT_DE_BUSCA}
           value={textoDaBusca}
           onChange={(e) => aoMudarTextoBusca?.(e.target.value)}
           slotProps={{
