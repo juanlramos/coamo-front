@@ -2,7 +2,9 @@
     "pessoas": [
         {
             "id": 1,
-            "nome": "João"
+            "email": "jL5sH@example.com",
+            "cidadeId": 1,
+            "nomeCompleto": "Jean Ferreira de Gois"
         }
     ]
 }
