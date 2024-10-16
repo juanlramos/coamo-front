@@ -2,9 +2,15 @@
     "pessoas": [
         {
             "id": 1,
-            "email": "jL5sH@example.com",
+            "email": "jean@example.com",
             "cidadeId": 1,
             "nomeCompleto": "Jean Ferreira de Gois"
+        },
+        {
+            "id": 2,
+            "email": "luquinhas@example.com",
+            "cidadeId": 1,
+            "nomeCompleto": "Lucas Benevides Ramos"
         }
     ]
 }
