@@ -2,6 +2,7 @@ import { Avatar, Box, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon,
 import { useAppThemeContext, useDrawerContext } from "../../contexts";
 import { matchRoutes, useMatch, useNavigate, useResolvedPath } from "react-router";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
+import { FaCircleUser } from "react-icons/fa6";
 
 
 interface IListItemLinkProps {
@@ -53,7 +54,9 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({children}) => {
                 <Box width="100%" height={theme.spacing(20)} display="flex" justifyContent="center" alignItems="center">
                     <Avatar 
                     sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-                    variant="circular" src="https://avatars.githubusercontent.com/u/95597422?v=4"/>
+                    variant="circular">
+                        <FaCircleUser size={100}/>
+                    </Avatar>
                 </Box>
 
                 <Divider />
