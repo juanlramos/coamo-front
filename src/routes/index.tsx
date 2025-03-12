@@ -2,8 +2,7 @@ import { Routes, Route, Navigate } from "react-router";
 import { useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
 import { IoMdHome, IoMdPeople } from "react-icons/io";
-import { PiCity } from "react-icons/pi";
-import { Dashboard, ListagemDePessoas } from "../pages";
+import { Dashboard, ListagemDePessoas, DetalheDePessoas } from "../pages";
 
 export const AppRoutes = () => {
 
@@ -28,7 +27,7 @@ export const AppRoutes = () => {
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard />}/>
             <Route path="/pessoas" element={<ListagemDePessoas />}/>
-            {/*<Route path="/pessoas/detalhe/:id" element={<Dashboard />}/>*/}
+            <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas />} />
             <Route path="*" element={<Navigate to="/pagina-inicial" />}/>
         </Routes>
     );

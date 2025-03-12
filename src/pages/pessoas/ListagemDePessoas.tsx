@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   IListagemPessoa,
   PessoasService,
@@ -17,15 +17,19 @@ import {
   TableRow,
   CircularProgress,
   Box,
-  Divider,
   TableFooter,
   Pagination,
+  IconButton,
+  Icon,
 } from "@mui/material";
 import { Environment } from "../../shared/environment";
+import { FiTrash2 } from "react-icons/fi";
+import { TfiPencil } from "react-icons/tfi";
 
 export const ListagemDePessoas: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce(1000);
+  const navigate = useNavigate();
 
   const [rows, setRows] = useState<IListagemPessoa[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -56,7 +60,23 @@ export const ListagemDePessoas: React.FC = () => {
         }
       });
     });
-  }, [busca, pagina]);
+  }, [busca, pagina, debounce]);
+
+  const handleDelete = (id: number) => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("Deseja apagar o registro?")) {
+      PessoasService.deleteById(id).then((result) => {
+        if (result instanceof Error) {
+          alert(result.message);
+        } else {
+          alert("Registro apagado com sucesso!");
+          setRows((oldRows) => {
+            return [...oldRows.filter((oldRow) => oldRow.id !== id)];
+          });
+        }
+      });
+    }
+  };
 
   return (
     <LayoutBaseDePagina
@@ -68,6 +88,7 @@ export const ListagemDePessoas: React.FC = () => {
           aoMudarTextoBusca={(texto) =>
             setSearchParams({ busca: texto, pagina: "1" }, { replace: true })
           }
+          aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
           mostrarInputBusca
         />
       }
@@ -102,7 +123,19 @@ export const ListagemDePessoas: React.FC = () => {
               {rows.length > 0 ? (
                 rows.map((row) => (
                   <TableRow key={row.id}>
-                    <TableCell>Ação</TableCell>
+                    <TableCell>
+                      <IconButton onClick={() => handleDelete(row.id)}>
+                        <Icon>
+                          <FiTrash2 />
+                        </Icon>
+                      </IconButton>
+
+                      <IconButton onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+                        <Icon>
+                          <TfiPencil />
+                        </Icon>
+                      </IconButton>
+                    </TableCell>
                     <TableCell>{row.nomeCompleto}</TableCell>
                     <TableCell>{row.email}</TableCell>
                   </TableRow>
