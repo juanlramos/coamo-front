@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
@@ -7,13 +7,20 @@ import { PessoasService } from "../../shared/services/api/pessoas/PessoasService
 import { VTextField } from "../../shared/forms";
 import { useForm } from "react-hook-form";
 
+interface IFormData {
+  email: string;
+  cidadeId: number;
+  nomeCompleto: string;
+}
+
 export const DetalheDePessoas: React.FC = () => {
   //regatando informações da url (esse ID tem que ser o mesmo que foi passado na rota)
   const { id = "nova" } = useParams<"id">();
   const navigate = useNavigate();
+  const formRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState("");
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<IFormData>();
 
   useEffect(() => {
     if (id != "nova") {
@@ -32,7 +39,7 @@ export const DetalheDePessoas: React.FC = () => {
     }
   }, [id]);
 
-  const handleSave = (dados: any) => {
+  const handleSave = (dados: IFormData) => {
     console.log(dados);
   };
 
@@ -68,10 +75,12 @@ export const DetalheDePessoas: React.FC = () => {
         />
       }
     >
-      <form onSubmit={handleSubmit(handleSave)}>
-        <VTextField name="Nome Completo" control={control} />
-
-        <button type="submit">Salvar</button>
+      <form ref={formRef} onSubmit={handleSubmit(handleSave)}>
+        <VTextField name="nomeCompleto" control={control} />
+        <VTextField name="email" control={control} />
+        <VTextField name="cidadeId" control={control} />
+        <VTextField name="endereco.rua" control={control} />
+        <VTextField name="endereco.numero" control={control} />
       </form>
     </LayoutBaseDePagina>
   );

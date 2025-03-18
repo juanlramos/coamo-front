@@ -19,7 +19,7 @@ export const VTextField: React.FC<TVTextFieldProps> = ({ name, control, ...rest 
         <TextField
             {...field}
             {...rest}
-            placeholder={name}
+            name={name}
         />
     );
 };
