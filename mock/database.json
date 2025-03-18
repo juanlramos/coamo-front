@@ -31,12 +31,6 @@
       "nomeCompleto": "Maria José dos Santos"
     },
     {
-      "id": 6,
-      "email": "gabriel@example.com",
-      "cidadeId": 2,
-      "nomeCompleto": "Gabriel Silva Oliveira"
-    },
-    {
       "id": 7,
       "email": "joao@example.com",
       "cidadeId": 4,
