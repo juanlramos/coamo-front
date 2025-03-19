@@ -20,7 +20,7 @@ export const DetalheDePessoas: React.FC = () => {
   const formRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState("");
-  const { control, handleSubmit } = useForm<IFormData>();
+  const { control, handleSubmit, reset } = useForm<IFormData>();
 
   useEffect(() => {
     if (id != "nova") {
@@ -33,14 +33,38 @@ export const DetalheDePessoas: React.FC = () => {
           navigate("/pessoas");
         } else {
           setNome(result.nomeCompleto);
-          console.log(result);
+          reset({
+            nomeCompleto: result.nomeCompleto,
+            email: result.email,
+            cidadeId: result.cidadeId
+          });
         }
       });
     }
   }, [id]);
 
   const handleSave = (dados: IFormData) => {
-    console.log(dados);
+    setIsLoading(true);
+    if (id === "nova") {
+      PessoasService.create(dados)
+        .then((result) => {
+          setIsLoading(false);
+          if (result instanceof Error) {
+            alert(result.message);
+          } else {
+              navigate(`/pessoas/detalhe/${result}`);
+            }
+        })
+    } else {
+      
+      PessoasService.updateById(Number(id),{id: Number(id), ...dados})
+        .then((result) => {
+          setIsLoading(false);
+          if (result instanceof Error) {
+            alert(result.message);
+          }
+        })
+    }
   };
 
   const handleDelete = (id: number) => {
@@ -76,11 +100,13 @@ export const DetalheDePessoas: React.FC = () => {
       }
     >
       <form ref={formRef} onSubmit={handleSubmit(handleSave)}>
-        <VTextField name="nomeCompleto" control={control} />
-        <VTextField name="email" control={control} />
-        <VTextField name="cidadeId" control={control} />
-        <VTextField name="endereco.rua" control={control} />
-        <VTextField name="endereco.numero" control={control} />
+        <VTextField
+          placeholder="Nome Completo"
+          name="nomeCompleto"
+          control={control}
+        />
+        <VTextField placeholder="E-mail" name="email" control={control} />
+        <VTextField placeholder="Cidade Id" name="cidadeId" control={control} />
       </form>
     </LayoutBaseDePagina>
   );

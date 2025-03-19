@@ -2,9 +2,9 @@
   "pessoas": [
     {
       "id": 1,
+      "nomeCompleto": "Jean Ferreira de Guá",
       "email": "jean@example.com",
-      "cidadeId": 1,
-      "nomeCompleto": "Jean Ferreira de Gois"
+      "cidadeId": 1
     },
     {
       "id": 2,
@@ -131,6 +131,12 @@
       "email": "edson@example.com",
       "cidadeId": 2,
       "nomeCompleto": "Edson Alves da Silva"
+    },
+    {
+      "id": 24,
+      "nomeCompleto": "não é teste",
+      "email": "teste@gmail.com",
+      "cidadeId": "1"
     }
   ]
 }
