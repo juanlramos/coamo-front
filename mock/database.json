@@ -11,9 +11,9 @@
     },
     {
       "id": 3,
+      "nomeCompleto": "Malphite Ferreira dos Santos",
       "email": "malphite@example.com",
-      "cidadeId": 1,
-      "nomeCompleto": "malphite Ferreira de Gois"
+      "cidadeId": 1
     },
     {
       "id": 4,
@@ -26,12 +26,6 @@
       "email": "maria@example.com",
       "cidadeId": 3,
       "nomeCompleto": "Maria José dos Santos"
-    },
-    {
-      "id": 7,
-      "email": "joao@example.com",
-      "cidadeId": 4,
-      "nomeCompleto": "João Pedro Almeida"
     },
     {
       "id": 8,
@@ -128,12 +122,6 @@
       "email": "edson@example.com",
       "cidadeId": 2,
       "nomeCompleto": "Edson Alves da Silva"
-    },
-    {
-      "id": 24,
-      "nomeCompleto": "não é teste",
-      "email": "teste@gmail.com",
-      "cidadeId": "1"
     },
     {
       "id": 25,

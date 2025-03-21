@@ -1,18 +1,24 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { Box, CircularProgress, Grid2, Paper, Typography } from "@mui/material";
+import * as yup from "yup";
 
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
 import { VTextField, VForm } from "../../shared/forms";
-import { set } from "react-hook-form";
 
 interface IFormData {
   email: string;
   cidadeId: number;
   nomeCompleto: string;
 }
+
+const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
+  nomeCompleto: yup.string().required().min(3),
+  email: yup.string().required().email(),
+  cidadeId: yup.number().required(),
+});
 
 export const DetalheDePessoas: React.FC = () => {
   //regatando informações da url (esse ID tem que ser o mesmo que foi passado na rota)
@@ -21,8 +27,10 @@ export const DetalheDePessoas: React.FC = () => {
   const formRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState("");
-  const { control, handleSubmit, reset } = VForm<IFormData>();
-  const [titulo, setTitulo] = useState(id === "nova" ? "Nova Pessoa" : "Editar Pessoa");
+  const { control, handleSubmit, reset, setError } = VForm<IFormData>();
+  const [titulo, setTitulo] = useState(
+    id === "nova" ? "Nova Pessoa" : "Editar Pessoa"
+  );
 
   useEffect(() => {
     if (id != "nova") {
@@ -53,39 +61,59 @@ export const DetalheDePessoas: React.FC = () => {
   }, [id]);
 
   const handleSave = (isSaveAndClose: boolean) => (dados: IFormData) => {
-    console.log(dados);
-    setIsLoading(true);
-    if (id === "nova") {
-      PessoasService.create(dados).then((result) => {
-        setIsLoading(false);
-        if (result instanceof Error) {
-          alert(result.message);
-        } else {
-          setTitulo(dados.nomeCompleto); 
-          if (isSaveAndClose) {
-            navigate("/pessoas");
-          } else {
-            navigate(`/pessoas/detalhe/${result}`);
-          }
-        }
-      });
-    } else {
-      PessoasService.updateById(Number(id), { id: Number(id), ...dados }).then(
-        (result) => {
-          setIsLoading(false);
-          if (result instanceof Error) {
-            alert(result.message);
-          } else {
-            setTitulo(dados.nomeCompleto);
-            if (isSaveAndClose) {
-              navigate("/pessoas");
+    formValidationSchema
+      .validate(dados, { abortEarly: false }) //valida todos os campos e retorna todos os erros encontrados
+      .then((dadosValidados) => {
+        setIsLoading(true);
+
+        if (id === "nova") {
+          PessoasService.create(dadosValidados).then((result) => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
             } else {
-              navigate(`/pessoas/detalhe/${id}`);
+              setTitulo(dadosValidados.nomeCompleto);
+              if (isSaveAndClose) {
+                navigate("/pessoas");
+              } else {
+                navigate(`/pessoas/detalhe/${result}`);
+              }
             }
-          }
+          });
+        } else {
+          PessoasService.updateById(Number(id), {
+            id: Number(id),
+            ...dadosValidados,
+          }).then((result) => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              setTitulo(dadosValidados.nomeCompleto);
+              if (isSaveAndClose) {
+                navigate("/pessoas");
+              } else {
+                navigate(`/pessoas/detalhe/${id}`);
+              }
+            }
+          });
         }
-      );
-    }
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validationErrors: { [key: string]: string } = {};
+
+        errors.inner.forEach((errors) => {
+          if (!errors.path) return;
+
+          validationErrors[errors.path] = errors.message;
+        });
+
+        Object.keys(validationErrors).forEach((field) => {
+          setError(field as any, {
+            message: validationErrors[field],
+          });
+        });
+      });
   };
 
   const handleDelete = (id: number) => {
