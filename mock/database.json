@@ -17,9 +17,9 @@
     },
     {
       "id": 4,
+      "nomeCompleto": "Ana Paula Lima",
       "email": "ana@example.com",
-      "cidadeId": 2,
-      "nomeCompleto": "Ana Paula Souza Lima"
+      "cidadeId": 2
     },
     {
       "id": 5,
@@ -128,6 +128,56 @@
       "nomeCompleto": "Jean Ferreira de Gois",
       "email": "jean@example.com",
       "cidadeId": "1"
+    }
+  ],
+  "cidades": [
+    {
+      "id": 1,
+      "nome": "Sao Paulo"
+    },
+    {
+      "id": 2,
+      "nome": "Rio de Janeiro"
+    },
+    {
+      "nome": "Belo Horizonte",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "nome": "Salvador"
+    },
+    {
+      "id": 5,
+      "nome": "Porto Alegre"
+    },
+    {
+      "id": 6,
+      "nome": "Curitiba"
+    },
+    {
+      "id": 7,
+      "nome": "Manaus"
+    },
+    {
+      "id": 8,
+      "nome": "Fortaleza"
+    },
+    {
+      "id": 9,
+      "nome": "Recife"
+    },
+    {
+      "id": 10,
+      "nome": "Brasilia"
+    },
+    {
+      "nome": "Santa Izabel",
+      "id": 11
+    },
+    {
+      "nome": "Campo Mourão",
+      "id": 12
     }
   ]
 }

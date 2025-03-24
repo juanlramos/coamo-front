@@ -3,9 +3,9 @@ import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  IListagemPessoa,
-  PessoasService,
-} from "../../shared/services/api/pessoas/PessoasService";
+  IListagemCidade,
+  CidadesService,
+} from "../../shared/services/api/cidades/CidadesService";
 import { useDebounce } from "../../shared/hooks";
 import {
   Paper,
@@ -21,17 +21,18 @@ import {
   Pagination,
   IconButton,
   Icon,
+  Divider,
 } from "@mui/material";
 import { Environment } from "../../shared/environment";
 import { FiTrash2 } from "react-icons/fi";
 import { TfiPencil } from "react-icons/tfi";
 
-export const ListagemDePessoas: React.FC = () => {
+export const ListagemDeCidades: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce(1000);
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState<IListagemPessoa[]>([]);
+  const [rows, setRows] = useState<IListagemCidade[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -47,7 +48,7 @@ export const ListagemDePessoas: React.FC = () => {
     setIsLoading(true);
 
     debounce(() => {
-      PessoasService.getAll(pagina, busca).then((result) => {
+      CidadesService.getAll(pagina, busca).then((result) => {
         setIsLoading(false);
 
         if (result instanceof Error) {
@@ -65,7 +66,7 @@ export const ListagemDePessoas: React.FC = () => {
   const handleDelete = (id: number) => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm("Deseja apagar o registro?")) {
-      PessoasService.deleteById(id).then((result) => {
+      CidadesService.deleteById(id).then((result) => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
@@ -80,7 +81,7 @@ export const ListagemDePessoas: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo="Listagem de Pessoas"
+      titulo="Listagem de Cidades"
       barraDeFerramentas={
         <FerramentasDaListagem
           textoBotaoNovo="Nova"
@@ -88,7 +89,7 @@ export const ListagemDePessoas: React.FC = () => {
           aoMudarTextoBusca={(texto) =>
             setSearchParams({ busca: texto, pagina: "1" }, { replace: true })
           }
-          aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
+          aoClicarEmNovo={() => navigate("/cidades/detalhe/nova")}
           mostrarInputBusca
         />
       }
@@ -114,8 +115,7 @@ export const ListagemDePessoas: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell width={100}>Ações</TableCell>
-                <TableCell>Nome Completo</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>Nome</TableCell>
               </TableRow>
             </TableHead>
 
@@ -130,14 +130,15 @@ export const ListagemDePessoas: React.FC = () => {
                         </Icon>
                       </IconButton>
 
-                      <IconButton onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+                      <IconButton
+                        onClick={() => navigate(`/cidades/detalhe/${row.id}`)}
+                      >
                         <Icon>
                           <TfiPencil />
                         </Icon>
                       </IconButton>
                     </TableCell>
-                    <TableCell>{row.nomeCompleto}</TableCell>
-                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.nome}</TableCell>
                   </TableRow>
                 ))
               ) : (
