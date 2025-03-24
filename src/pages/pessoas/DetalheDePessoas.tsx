@@ -52,6 +52,7 @@ export const DetalheDePessoas: React.FC = () => {
         }
       });
     } else {
+      setTitulo("Nova Pessoa");
       reset({
         nomeCompleto: "",
         email: "",
